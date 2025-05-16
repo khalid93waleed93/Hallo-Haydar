@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Static MCQ Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    .question-container {
+      background: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .question-text {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    .answer {
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .answer:hover {
+      background-color: #f0f0f0;
+    }
+    .correct {
+      background-color: #d4edda;
+      border-color: #28a745;
+      color: #155724;
+    }
+    .incorrect {
+      background-color: #f8d7da;
+      border-color: #dc3545;
+      color: #721c24;
+    }
+    .highlight {
+      border-color: #007bff;
+      background-color: #cce5ff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Static MCQ Quiz</h1>
+  <div id="quiz-container"></div>
+
+  <script>
+    const data = [
+  {
+    "question": "Which of the following studies is the best for the initial evaluation maxilla, maxillary sinuses, floors, and inferior rims of the orbits, and the zygomatic arches?",
+    "answers": [
+      "Axial CT scan of the head",
+      "Coronal CT scan of the head",
+      "Lateral view of the facial bones",
+      "Posteroanterior view of the facial bones",
+      "Waters' projection"
+    ],
+    "correctAnswer": 4
+  },
+  {
+    "question": "A 17-year-old intoxicated unrestrained front seat passenger was thrown from a convertible when it struck a tree. What is the treatment priority?",
+    "answers": [
+      "Immediate orotracheal intubation or surgical cricothyrotomy",
+      "Nasotracheal intubation with direct laryngoscopy and magill forceps",
+      "Opening the airway with the head-tilt/chin-lift method",
+      "Immediate portable cross-table lateral radiograph of the cervical spine",
+      "Surgical consultation for tracheostomy in the operating room"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "question": "Which of the following principles regarding the management of facial wounds is true?",
+    "answers": [
+      "Beveled lacerations should be debrided parallel to the lacerated edges to preserve orientation",
+      "Debris in traumatic abrasion should be removed 3-4 days later by a plastic surgeon",
+      "Dog bite puncture wounds should be copiously irrigated, explored, and closed primarily",
+      "Relatively clean facial wounds may be repaired up to 24 hours after injury",
+      "Quality of final result is compromised if facial fractures aren't treated in 48h"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "question": "All the following management principles are true for soft tissue injury except which one?",
+    "answers": [
+      "Debridement of facial wounds should be avoided",
+      "Facial wounds should be carefully explored before closing",
+      "Tetanus prophylaxis is an initial concern",
+      "Width of wound edges predicts resultant scar width",
+      "Wounds up to 24 hours old may be closed on the face"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "question": "Which of the following is true regarding the management of facial wounds?",
+    "answers": [
+      "Deep layers are best closed with running locked stitches",
+      "Monofilament synthetic nonabsorbable sutures are preferred for facial skin closure",
+      "Nonabsorbable sutures of 4-0 or 5-0 should approximate deep layers",
+      "Skin doesn't regain adequate tensile strength for 2-3 weeks after repair",
+      "Silk is the suture of choice in facial wounds"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "question": "At the end of the inflammatory phase of wound healing (one week after closure) the wound has what percentage of its final tensile strength?",
+    "answers": [
+      "10%",
+      "20%",
+      "30%",
+      "70%",
+      "80%"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "question": "A 27-year-old woman with nasal trauma has a grape-like swelling over the left nasal septum. What is most appropriate?",
+    "answers": [
+      "Check coagulation studies for possible coagulopathy",
+      "Closed reduction with ENT follow-up",
+      "Incision and drainage of septal hematoma with anterior packing",
+      "ENT referral within 1 week",
+      "ENT referral for nasal polyps"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "question": "A 32-year-old woman with orbital trauma develops decreasing vision and orbital emphysema. What is next?",
+    "answers": [
+      "Ballottement of the globe",
+      "Intraorbital needle aspiration or lateral canthotomy/cantholysis",
+      "Ophthalmology consult for retinal tear",
+      "Topical cycloplegics with ophthalmology follow-up",
+      "None of the above"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "question": "A 32-year-old man post-fight has right-sided enophthalmos and inability to gaze upward. What is appropriate ED management?",
+    "answers": [
+      "Ophthalmology follow-up for orbital blowout fracture",
+      "Neurosurgery consult for intracranial hemorrhage",
+      "NSAIDs and reassurance",
+      "Check blood alcohol level",
+      "Serum Lyme titers and ID consult"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "question": "The signs of Blowout fracture include the following except:",
+    "answers": [
+      "Enophthalmos",
+      "Vertical diplopia",
+      "Change in visual acuity",
+      "Anesthesia over anteromedial cheek and upper lip",
+      "Drooping eyelid"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Zygoma Arch Fractures Clinical Findings include the following except:",
+    "answers": [
+      "Palpable bony defect over the arch",
+      "Depressed cheek with tenderness",
+      "Pain in cheek and jaw movement",
+      "Limited mandibular movement",
+      "Buccal sulcus ecchymosis"
+    ],
+    "correctAnswer": 4
+  },
+  {
+    "question": "The radiological findings in a blowout fracture include the following except:",
+    "answers": [
+      "Periorbital edema with thickened soft tissue shadow",
+      "Orbital emphysema",
+      "Partial to complete opacification of maxillary antrum",
+      "Hanging-drop radiolucency into maxillary antrum",
+      "Fragmentation of orbital floor"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "question": "A patient with neck stab wound and large hematoma distorting airway anatomy but no stridor needs:",
+    "answers": [
+      "Awake oral intubation with local anesthesia",
+      "Blind nasotracheal intubation",
+      "Immediate cricothyrotomy",
+      "Rapid-sequence induction with endotracheal intubation",
+      "Trauma surgeon consult for tracheostomy"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "question": "A GSW neck patient suddenly develops tachypnea, tachycardia, hypotension, and machinery-like murmur. Immediate action?",
+    "answers": [
+      "Needle aspiration of right ventricle",
+      "Place bilateral chest tubes",
+      "Place patient seated upright",
+      "Left lateral decubitus in Trendelenburg",
+      "Fluid challenge 20 cc/kg"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "question": "A 25-year-old female with neck stab wound under chin, tachypneic (28), BP 93/50, brisk bleeding. Orders?",
+    "answers": [
+      "Assess wound depth and tissue involvement",
+      "Direct to OR with trauma surgeon notification",
+      "Immediate intubation due to tachypnea",
+      "Two IVs for volume resuscitation with MAST trousers",
+      "Two IVs and direct pressure to bleeding site"
+    ],
+    "correctAnswer": 4
+  },
+  {
+    "question": "A hypotensive penetrating neck trauma patient at a low-volume ED needs transfer to trauma center 15 min away. Before transfer?",
+    "answers": [
+      "Rapidly prepare for transport without delay",
+      "Secure airway, oropharyngeal packing, IV access",
+      "Secure airway, orogastric tube, IV access",
+      "Complete full primary/secondary surveys first",
+      "Transfer only if platysma penetrated"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "question": "A patient struck in head/face with crowbar has decreasing consciousness, unilateral limb paresis and Horner's syndrome. Diagnosis?",
+    "answers": [
+      "Air embolus",
+      "Brachial plexus injury",
+      "Carotid artery thrombosis",
+      "Cervical spine fracture",
+      "Cavernous sinus thrombosis"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which is true regarding neck trauma?",
+    "answers": [
+      "Delayed neurologic deficits suggest carotid dissection",
+      "All suspected esophageal injuries need barium esophagogram",
+      "Zone III injuries are most amenable to surgical exploration",
+      "All neck wounds should be probed",
+      "Impaled objects should always be removed"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "question": "Characteristics of the ideal tooth splint include the following except:",
+    "answers": [
+      "Easily fabricated without additional trauma",
+      "Passive unless orthodontic forces intended",
+      "Does not allow physiologic mobility",
+      "Allows endodontic access",
+      "Allows vitality testing"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which is true about head injury with hyponatremia?",
+    "answers": [
+      "No primary alterations in cardiovascular signs",
+      "ICP signs may be masked by hyponatremia",
+      "Oliguric renal failure is unlikely",
+      "Rapid correction may prevent central pontine injury",
+      "Best treated by water restriction"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "question": "Epithelialization of an injury begins:",
+    "answers": [
+      "Within hours",
+      "After 2 days",
+      "After 3 days",
+      "After one week",
+      "After 2 weeks"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "question": "Lamellar bone is typically composed of approximately:",
+    "answers": [
+      "20% water and 80% solid",
+      "18% water and 82% solid",
+      "3% water and 97% solid",
+      "15% water and 85% solid",
+      "8% water and 92% solid"
+    ],
+    "correctAnswer": 4
+  },
+  {
+    "question": "Gilles approach incision is made:",
+    "answers": [
+      "5 cm above and 1 cm anterior to ear",
+      "2 cm above and 1 cm posterior to ear",
+      "2 cm above and 1 cm anterior to ear",
+      "3 cm above and 2 cm anterior to ear",
+      "3 cm above and 2 cm posterior to ear"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The frontal sinus:",
+    "answers": [
+      "9% lack frontal sinus",
+      "1% lack frontal sinus",
+      "0.4% lack frontal sinus",
+      "10% lack frontal sinus",
+      "4% lack frontal sinus"
+    ],
+    "correctAnswer": 4
+  },
+  {
+    "question": "In Risdon/submandibular approach, incision parameters include the following except:",
+    "answers": [
+      "Anterior-posterior fracture location",
+      "Natural skin folds",
+      "Occlusion of teeth",
+      "Langer's skin lines",
+      "Position of marginal mandibular nerve"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "question": "In cervical spine injury:",
+    "answers": [
+      "Neck may be flexed safely",
+      "Neck may be extended safely",
+      "Chin lift and jaw thrust may be done",
+      "All of the above",
+      "None of the above"
+    ],
+    "correctAnswer": 4
+  },
+  {
+    "question": "Diplopia results if zygomatic fracture line passes:",
+    "answers": [
+      "Below Whitnall's tubercle",
+      "Above Whitnall's tubercle",
+      "Through zygomaticofrontal suture",
+      "Above zygomaticofrontal suture",
+      "Tearing orbital surface periosteum"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Bilateral infraorbital step, left cheek paresthesia, posterior gagging, mobile maxilla indicates:",
+    "answers": [
+      "Bilateral zygoma fracture",
+      "Bilateral Le Fort II",
+      "Left zygoma fracture with bilateral Le Fort II",
+      "Bilateral subcondylar with left zygoma fracture",
+      "None of the above"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which is true about head injury with hyponatremia?",
+    "answers": [
+      "No primary cardiovascular sign alterations",
+      "ICP signs may be masked by hyponatremia",
+      "Oliguric renal failure is unlikely",
+      "Rapid correction may prevent central pontine injury",
+      "Best treated by water restriction"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "question": "All can be seen clearly in occipitomental view except:",
+    "answers": [
+      "Fracture at mandible angle",
+      "Zygomatic complex fracture",
+      "LeFort I, II, III fractures",
+      "Coronoid process fracture",
+      "Nasoethmoidal complex fracture"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "question": "Major cause of death following RTA is:",
+    "answers": [
+      "Brain damage",
+      "Facial injuries",
+      "Chest trauma",
+      "Abdominal trauma",
+      "Fracture with fat embolism"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "question": "ATLS concepts in severe maxillofacial trauma include:",
+    "answers": [
+      "Treat greatest threat first, lack of diagnosis shouldn't delay treatment",
+      "Detailed history not essential to begin evaluation",
+      "Detailed history essential to begin evaluation",
+      "A & B",
+      "B & C"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "question": "Indication for definite airway in severe maxillofacial trauma is:",
+    "answers": [
+      "Inadequate effort, tachypnea, hypoxia, hypercarbia",
+      "Inadequate effort, tachypnea, hypoxia, hypocarbia",
+      "Inadequate effort, bradypnea, hypoxia, hypocarbia",
+      "Inadequate effort, bradypnea, hypocarbia",
+      "Inadequate effort, tachypnea, hypoxia"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "question": "Which is FALSE about penetrating neck wounds?",
+    "answers": [
+      "All Zone I-III injuries penetrating platysma should be explored",
+      "Symptomatic Zone III injuries require angiography before exploration",
+      "Asymptomatic Zone I injuries require angiography before exploration",
+      "Zone I/III injuries require routine angiography",
+      "Angiography not necessary for any Zone II injury"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "question": "Which is NOT indicated in symphyseal mandibular fracture?",
+    "answers": [
+      "Two lag screws",
+      "Four-hole dynamic compression plate",
+      "Four-hole DCP with arch bar",
+      "Four-hole eccentric DCP",
+      "Reconstructive plate"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which is TRUE about wound healing?",
+    "answers": [
+      "Phases: hemostasis, proliferation, maturation",
+      "PMNs most important in maturation phase",
+      "Fibroblasts appear on day 7",
+      "In maturation, type III replaces type I collagen",
+      "None of the above"
+    ],
+    "correctAnswer": 4
+  },
+  {
+    "question": "Which is INCORRECT in severe human bite management?",
+    "answers": [
+      "Copious irrigation",
+      "Debridement",
+      "Tetanus prophylaxis",
+      "Primary closure",
+      "IV 2nd-gen cephalosporin"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "question": "Which incision is NOT used in Le Fort fracture repair?",
+    "answers": [
+      "Bicoronal",
+      "Intraoral",
+      "Zygomatic arch",
+      "Subciliary",
+      "Transconjunctival"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which is TRUE about mandible plating?",
+    "answers": [
+      "Wiring produces primary bone healing",
+      "DCP doesn't need tension band at alveolar border",
+      "EDCP needs miniplate at alveolar border",
+      "Tension band can be miniplate or arch bar with DCP",
+      "GSW comminuted fractures need EDCP and miniplates"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "question": "Which is FALSE about compression plating in mandible fractures?",
+    "answers": [
+      "Requires bicortical screws",
+      "Placed along basal border",
+      "Strong compression plates alone overcome distracting forces",
+      "Tension bands used with compression plates",
+      "Miniplate above nerve and arch bars are tension bands"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which approach is BEST for Le Fort III fracture?",
+    "answers": [
+      "Extended bilateral sublabial",
+      "Facial degloving",
+      "Bicoronal incision flap",
+      "Bilateral sublabial and subciliary",
+      "Bilateral lateral rhinotomy and frontozygomatic"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which is BEST free flap for total mandible reconstruction?",
+    "answers": [
+      "Rib",
+      "Scapula",
+      "Fibula",
+      "Iliac crest",
+      "Humerus"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which plating is MOST USEFUL in atrophic mandible fracture?",
+    "answers": [
+      "Lag screws",
+      "DCP",
+      "EDCP",
+      "Mandible reconstruction plates",
+      "Multiple monocortical miniplates"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "question": "Which mandible fracture is usually managed by CLOSED REDUCTION in dentate adult?",
+    "answers": [
+      "Symphysis",
+      "Parasymphysis",
+      "Body",
+      "Angle",
+      "Condyle"
+    ],
+    "correctAnswer": 4
+  },
+  {
+    "question": "MOST common complication after zygomatic fracture reduction is:",
+    "answers": [
+      "Diplopia",
+      "Enophthalmos",
+      "Orbital entrapment",
+      "Ectropion/inferior scleral show",
+      "Malar depression"
+    ],
+    "correctAnswer": 4
+  },
+  {
+    "question": "Which mandible fracture has HIGHEST infection incidence?",
+    "answers": [
+      "Symphysis/Parasymphysis",
+      "Body",
+      "Ramus",
+      "Angle",
+      "Condyle"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "question": "Which is MOST USEFUL for comminuted mandibular body fracture with bone loss?",
+    "answers": [
+      "MMF",
+      "Multiple miniplates",
+      "DCP",
+      "EDCP",
+      "Mandibular Reconstruction Plates"
+    ],
+    "correctAnswer": 4
+  },
+  {
+    "question": "BEST management for isolated coronoid process fracture is:",
+    "answers": [
+      "Analgesics and follow-up",
+      "MMF",
+      "Miniplates",
+      "Microplates",
+      "Two-hole DCP"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "question": "Which suture produces LESS tissue reaction on face?",
+    "answers": [
+      "Chromic catgut",
+      "Vicryl",
+      "Silk",
+      "Nylon",
+      "Prolene"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "question": "FIRST STEP in intraorbital hemorrhage management is:",
+    "answers": [
+      "Reassure patient",
+      "Open incision",
+      "Lateral canthotomy",
+      "Mannitol IV",
+      "Stat ophthalmology consult"
+    ],
+    "correctAnswer": 1
+  }
+];
+
+    const container = document.getElementById('quiz-container');
+
+    data.forEach((question, qIndex) => {
+      const questionDiv = document.createElement('div');
+      questionDiv.className = 'question-container';
+
+      const questionText = document.createElement('div');
+      questionText.className = 'question-text';
+      questionText.textContent = `${qIndex + 1}. ${question.question}`;
+      questionDiv.appendChild(questionText);
+
+      question.answers.forEach((answer, aIndex) => {
+        const answerDiv = document.createElement('div');
+        answerDiv.className = 'answer';
+        answerDiv.textContent = answer;
+        answerDiv.addEventListener('click', () => {
+          const isCorrect = aIndex === question.correctAnswer;
+          const allAnswers = questionDiv.querySelectorAll('.answer');
+          allAnswers.forEach((el, index) => {
+            el.classList.remove('correct', 'incorrect', 'highlight');
+            if (index === question.correctAnswer) {
+              el.classList.add('highlight');
+            }
+          });
+          answerDiv.classList.add(isCorrect ? 'correct' : 'incorrect');
+          allAnswers.forEach(el => el.style.pointerEvents = 'none');
+        });
+        questionDiv.appendChild(answerDiv);
+      });
+
+      container.appendChild(questionDiv);
+    });
+  </script>
+</body>
+</html>
