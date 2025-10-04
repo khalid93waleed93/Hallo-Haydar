@@ -51,4 +51,187 @@
     border-radius:24px;
     background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.04));
     box-shadow:
-      0 10px 30
+      0 10px 30px rgba(0,0,0,.35),
+      inset 0 0 0 1px rgba(255,255,255,.08);
+    backdrop-filter: blur(8px);
+    text-align:center;
+  }
+  h1{
+    margin:0 0 10px;
+    font-weight:700;
+    letter-spacing:.3px;
+    font-size: clamp(22px, 2.4vw + 12px, 34px);
+  }
+  p{
+    margin:0 0 20px;
+    opacity:.9;
+    font-size: clamp(14px, 1.2vw + 10px, 18px);
+  }
+
+  .btn{
+    appearance:none;
+    border:0;
+    border-radius:16px;
+    padding:14px 20px;
+    font-weight:700;
+    cursor:pointer;
+    color:#0a0a0a;
+    background:
+      conic-gradient(from 180deg at 50% 50%, #fff, #eaeaff, #ffffff);
+    position:relative;
+    transition: transform .12s ease, box-shadow .2s ease;
+    box-shadow: 0 10px 20px rgba(124,92,255,.35), 0 2px 0 rgba(0,0,0,.25);
+  }
+  .btn:hover{ transform: translateY(-1px); }
+  .btn:active{ transform: translateY(0); box-shadow: 0 6px 16px rgba(124,92,255,.35), 0 1px 0 rgba(0,0,0,.25); }
+
+  /* Fullscreen love overlay */
+  .overlay{
+    position:fixed; inset:0;
+    display:grid; place-items:center;
+    background: radial-gradient(70vmax 70vmax at 50% 60%, rgba(255,255,255,.06), rgba(0,0,0,.66)), #05070d;
+    opacity:0; visibility:hidden;
+    transition: opacity .45s ease, visibility .45s ease;
+    z-index:3;
+    overflow:hidden;
+  }
+  .overlay.show{ opacity:1; visibility:visible; }
+
+  /* Arabic love text */
+  .arabic{
+    direction: rtl;
+    font-weight: 800;
+    letter-spacing: 1px;
+    line-height: 1.05;
+    text-align: center;
+    font-size: clamp(36px, 9vw, 120px);
+    background: linear-gradient(90deg, #ffffff, #ffe3f0, #ffd1dc, #ffffff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 10px 30px rgba(255,77,109,.35));
+    animation:
+      glow 2.2s ease-in-out infinite,
+      hue 12s linear infinite;
+    will-change: transform, filter;
+    padding: 0 6vw;
+  }
+  @keyframes glow{
+    0%,100%{ text-shadow: 0 0 0 rgba(255,255,255,0); transform: scale(1); }
+    50%{ text-shadow: 0 0 30px rgba(255,255,255,.35); transform: scale(1.03); }
+  }
+  @keyframes hue{
+    0%{ filter: drop-shadow(0 10px 30px rgba(255,77,109,.35)); }
+    50%{ filter: drop-shadow(0 10px 38px rgba(124,92,255,.45)); }
+    100%{ filter: drop-shadow(0 10px 30px rgba(255,77,109,.35)); }
+  }
+
+  /* Floating hearts */
+  .heart{
+    position:absolute;
+    width:18px; height:18px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    animation: floatUp 6s ease-in infinite;
+    opacity:.9;
+  }
+  .heart::before,
+  .heart::after{
+    content:"";
+    position:absolute;
+    width:18px; height:18px;
+    background: radial-gradient(circle at 30% 30%, #fff, var(--accent2));
+    border-radius:50%;
+  }
+  .heart::before{ left:-50%; }
+  .heart::after{ top:-50%; }
+  @keyframes floatUp{
+    0%{ transform: translateY(40vh) scale(.6) rotate(45deg); opacity:0; }
+    10%{ opacity:.9; }
+    100%{ transform: translateY(-60vh) scale(1.1) rotate(45deg); opacity:0; }
+  }
+
+  /* Close hint */
+  .hint{
+    position: absolute;
+    bottom: 20px; left: 0; right: 0;
+    text-align: center;
+    font-size: 14px;
+    opacity:.7;
+  }
+
+  /* Accessibility: reduce motion */
+  @media (prefers-reduced-motion: reduce){
+    .orbs, .arabic{ animation: none !important; }
+    .heart{ animation-duration: 12s; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orbs" aria-hidden="true"></div>
+
+<main class="card" role="main" aria-live="polite">
+  <h1>hallo haydar</h1>
+  <p>Klicke den Knopf unten — <em>click here please</em> — für eine kleine Überraschung.</p>
+  <button class="btn" id="loveBtn" aria-controls="loveOverlay" aria-expanded="false">
+    click here please
+  </button>
+</main>
+
+<!-- Overlay with animated Arabic text -->
+<section class="overlay" id="loveOverlay" aria-hidden="true">
+  <div class="arabic" lang="ar">انا احبك</div>
+  <div class="hint">Zum Schließen irgendwo tippen/klicken</div>
+</section>
+
+<script>
+  const btn = document.getElementById('loveBtn');
+  const overlay = document.getElementById('loveOverlay');
+
+  // Create floating hearts on the overlay
+  function spawnHeart() {
+    const h = document.createElement('div');
+    h.className = 'heart';
+    const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+    const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+    h.style.left = Math.random() * vw + 'px';
+    h.style.top = (vh + 40) + 'px';
+    h.style.animationDuration = (5 + Math.random() * 4).toFixed(2) + 's';
+    h.style.opacity = (0.6 + Math.random() * 0.4).toFixed(2);
+    h.style.filter = `hue-rotate(${Math.floor(Math.random()*60)-30}deg)`;
+    overlay.appendChild(h);
+    // Remove when finished
+    setTimeout(() => h.remove(), 9000);
+  }
+
+  let heartTimer;
+
+  function openOverlay(){
+    overlay.classList.add('show');
+    overlay.setAttribute('aria-hidden', 'false');
+    btn.setAttribute('aria-expanded','true');
+    // burst
+    for(let i=0;i<24;i++){ setTimeout(spawnHeart, i*60); }
+    // continuous
+    heartTimer = setInterval(spawnHeart, 400);
+  }
+
+  function closeOverlay(){
+    overlay.classList.remove('show');
+    overlay.setAttribute('aria-hidden', 'true');
+    btn.setAttribute('aria-expanded','false');
+    clearInterval(heartTimer);
+    // Clean remaining hearts after fade
+    setTimeout(() => {
+      document.querySelectorAll('.heart').forEach(el => el.remove());
+    }, 500);
+  }
+
+  btn.addEventListener('click', openOverlay);
+  overlay.addEventListener('click', closeOverlay);
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape' && overlay.classList.contains('show')) closeOverlay();
+  });
+</script>
+</body>
+</html>
